@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EmailClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" MinWidth="600" MinHeight="250">
+        Title="E-Mail" Height="450" Width="800" MinWidth="600" MinHeight="250">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -30,30 +30,36 @@
             </MenuItem>
         </Menu>
 
-        <!-- TreeView pour afficher les boîtes aux lettres et leurs dossiers -->
-        <TreeView Grid.Row="1" Grid.Column="0">
-            <!-- Exemple de boîte aux lettres -->
-            <TreeViewItem Header="Mailbox 1">
-                <TreeViewItem Header="Inbox"/>
-                <TreeViewItem Header="Sent"/>
-                <TreeViewItem Header="Drafts"/>
-                <TreeViewItem Header="Trash"/>
-            </TreeViewItem>
-            <TreeViewItem Header="Mailbox 2">
-                <TreeViewItem Header="Inbox"/>
-                <TreeViewItem Header="Sent"/>
-                <TreeViewItem Header="Drafts"/>
-                <TreeViewItem Header="Trash"/>
-            </TreeViewItem>
+
+
+        <TreeView Grid.Row="1" Grid.Column="0" Name="TVFolders">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding SubFolders}">
+                    <TextBlock Text="{Binding Name}"/>
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"/>
+                        </DataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
         </TreeView>
 
 
 
-        <ListView Grid.Row="1" Grid.Column="1" Name="LVTasks" MouseDoubleClick="ListView_MouseDoubleClick">
-            <ListViewItem>Message 1</ListViewItem>
-            <ListViewItem>Message 2</ListViewItem>
-            <ListViewItem>Message 3</ListViewItem>
+
+
+        <ListView Grid.Row="1" Grid.Column="1" Name="LVEmails" MouseDoubleClick="ListView_MouseDoubleClick">
+            <ListView.View>
+                <GridView>
+                    
+                    <GridViewColumn DisplayMemberBinding="{Binding Subject}" Header="Subject" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding FormattedRecipients}" Header="Recipient" Width="auto"/>
+                    <!-- Recipients affiche (Collection) !!!! -->
+                </GridView>
+            </ListView.View>
         </ListView>
+
 
 
 
