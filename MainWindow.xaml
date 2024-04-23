@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EmailClient"
         mc:Ignorable="d"
-        Title="E-Mail" Height="450" Width="800" MinWidth="600" MinHeight="250">
+        Title="E-Mail" Height="450" Width="800" MinWidth="600" MinHeight="380">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -18,55 +18,58 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Menu Grid.ColumnSpan="3">
+        <!--Menu-->
+        <Menu Grid.ColumnSpan="3" Background="Beige">
             <MenuItem Header="File">
                 <MenuItem Header="Settings"/>
                 <MenuItem Header="Exit" Click="MenuItem_Click"/>
             </MenuItem>
             <MenuItem Header="Message">
                 <MenuItem Header="New"/>
-                <MenuItem Header="Edit"/>
-                <MenuItem Header="Delete"/>
-            </MenuItem>
+                <MenuItem Header="Add" Command="{Binding AddEmailCommand}"/>
+                <MenuItem Header="Edit" Command="{Binding EditDraftCommand}"/>
+                <MenuItem Header="Delete" Command="{Binding DeleteEmailCommand}"/>
+                </MenuItem>
         </Menu>
 
 
-
-        <TreeView Grid.Row="1" Grid.Column="0" Name="TVFolders">
+        <!-- Find in internet / Source 1-->
+        <!--Display Folders-->
+        <TreeView Grid.Row="1" Grid.Column="0" Name="TVFolders" ItemsSource="{Binding folderList}"  SelectedItemChanged="TVFolders_SelectedItem" Background="Bisque">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding SubFolders}">
                     <TextBlock Text="{Binding Name}"/>
-                    <HierarchicalDataTemplate.ItemTemplate>
+                    <HierarchicalDataTemplate.ItemTemplate >
                         <DataTemplate>
-                            <TextBlock Text="{Binding}"/>
+                            <TextBlock Text="{Binding Name}"/>
                         </DataTemplate>
                     </HierarchicalDataTemplate.ItemTemplate>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-
-
-
-
-
-        <ListView Grid.Row="1" Grid.Column="1" Name="LVEmails" MouseDoubleClick="ListView_MouseDoubleClick">
+        
+        <!--Display List of emails-->
+        <ListView Grid.Row="1" Grid.Column="1" Name="LVEmails"  MouseDoubleClick="ListView_MouseDoubleClick" SelectedItem="{Binding SelectedEmail}" Background="BlanchedAlmond" SizeChanged="LVEmails_SizeChanged">
             <ListView.View>
                 <GridView>
-                    
-                    <GridViewColumn DisplayMemberBinding="{Binding Subject}" Header="Subject" Width="auto"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding FormattedRecipients}" Header="Recipient" Width="auto"/>
-                    <!-- Recipients affiche (Collection) !!!! -->
+                    <GridViewColumn x:Name="SubjectColumn" DisplayMemberBinding="{Binding Subject}" Header="Subject" Width="auto"/>
+                    <GridViewColumn x:Name="RecipientColumn" DisplayMemberBinding="{Binding FormattedRecipients}" Header="Recipient" Width="auto"/>
                 </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="BorderBrush" Value="Black"/>
+                    <Setter Property="BorderThickness" Value="0.1"/>
+                </Style>
+
+            </ListView.ItemContainerStyle>
         </ListView>
 
 
-
-
-
-        <StackPanel Grid.Row="1" Grid.Column="3">
-            <ToolBarTray>
-                <ToolBar>
+        <StackPanel Grid.Row="1" Grid.Column="3" Name="SPMail" Background="PapayaWhip">
+            <!--Toolbar-->
+            <ToolBarTray Background="Beige">
+                <ToolBar Background="Beige" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                     <Button>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="ressources/reply.png" Width="20"/>
@@ -85,7 +88,7 @@
                             <Label Content="Forward"/>
                         </StackPanel>
                     </Button>
-                    <Button>
+                    <Button Command="{Binding DeleteEmailCommand}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="ressources/delete.png" Width="20"/>
                             <Label Content="Delete"/>
@@ -97,25 +100,41 @@
                             <Label Content="Compose"/>
                         </StackPanel>
                     </Button>
-                    
+
                 </ToolBar>
             </ToolBarTray>
+
+            <!--Display Content of email-->
+            <DockPanel Margin="5 5 5 5">
+                <Label Content="Sender : " Width="100" VerticalAlignment="Center"/>
+                <TextBox Name="TBSender" Text="{Binding SelectedEmail.Sender, UpdateSourceTrigger=PropertyChanged}" Background="Ivory"/>
+            </DockPanel>
+            <DockPanel Margin="5 5 5 5">
+                <Label Content="Recipients : " Width="100" VerticalAlignment="Center"/>
+                <TextBox Name="TBRecipients" Text="{Binding RecipientstoString, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Background="Ivory"/>
+            </DockPanel>
+            <DockPanel Margin="5 5 5 5">
+                <Label Content="CCRecipients : " Width="100" VerticalAlignment="Center"/>
+                <TextBox Name="TBCCRecipients"  Text="{Binding CCRecipientstoString, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Background="Ivory"/>
+            </DockPanel>
+            <DockPanel Margin="5 5 5 5">
+                <Label Content="Subject : " Width="100" VerticalAlignment="Center"/>
+                <TextBox Name="TBSubject"  Text="{Binding SelectedEmail.Subject, UpdateSourceTrigger=PropertyChanged}" Background="Ivory"/>
+            </DockPanel>
+            <DockPanel Margin="5 5 5 5" MinHeight="100" Height="auto">
+                <Border BorderBrush="Black" BorderThickness="0.5">
+                    <TextBlock Name="TBContent" Text="{Binding SelectedEmail.Content, UpdateSourceTrigger=PropertyChanged}" FontSize="13" Background="Ivory"/>
+                </Border>
+            </DockPanel>
             
-            <TextBlock Text="Contenu du message ici" Height="auto" MinHeight="100" FontSize="13" Background="LightGray" Margin="5">
-                
-            </TextBlock>
- 
-            <TextBox Margin="10" Text="Search Text"/>
-
-
+           
+            <TextBox Margin="10" Text="Search Text" Background="Ivory" />
 
         </StackPanel>
-        
-
-
-
 
     </Grid>
     
 </Window>
-    
+
+
+<!--Source 1 : https://learn.microsoft.com/en-us/dotnet/api/system.windows.hierarchicaldatatemplate?view=windowsdesktop-8.0 -->

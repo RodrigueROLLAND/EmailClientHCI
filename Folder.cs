@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +9,7 @@ using System.Windows;
 
 namespace EmailClient
 {
-    class Folder
+    public class Folder : INotifyPropertyChanged
     {
         public string Name
         {
@@ -21,42 +23,53 @@ namespace EmailClient
                 else
                 {
                     name = value;
+                    OnPropertyChanged("Name");
                 }
             }
         }
         private string name;
 
-        public List<string> SubFolders
+        public ObservableCollection<Folder> SubFolders
         {
             get { return subfolders; }
             set
             {
                 subfolders = value;
-                //pour moi pas de tests car si c'est vide bah c'est bien
-                //si c'est pas vide
+                OnPropertyChanged("SubFolders");
             }
         }
-        private List<string> subfolders;
+        private ObservableCollection<Folder> subfolders;
 
-        public List<Email> Messages
+        public ObservableCollection<Email> Messages
         {
             get { return messages; }
             set
             {
                 
                 messages = value;
-                //pour moi pas de tests car si c'est vide bah c'est bien
-                //si c'est pas vide
+                OnPropertyChanged("Messages");
             }
         }
-        private List<Email> messages;
+        private ObservableCollection<Email> messages;
 
-        public Folder(string name, List<string> subfolders, List<Email>? messages = null)
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public Folder(string name, List<Folder>? subfolders = null, List<Email>? messages = null)
         {
             Name = name;
-            SubFolders = subfolders;
-            Messages = messages;
+            SubFolders = new ObservableCollection<Folder>(subfolders ?? new List<Folder>());
+            Messages = new ObservableCollection<Email>(messages ?? new List<Email>());
         }
 
+
+        //Copy of LabWork
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+
+            }
+        }
     }
 }

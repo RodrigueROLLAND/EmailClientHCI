@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
@@ -9,7 +10,8 @@ using System.Xml.Linq;
 
 namespace EmailClient
 {
-    class Email
+
+    public class Email : INotifyPropertyChanged
     {
         public Email(string sender, List<string> recipients, List<string> ccrecipients, string subject, string content, List<string> attachments, DateTime date)
         {
@@ -20,6 +22,7 @@ namespace EmailClient
             Content = content;
             Attachments = attachments;
             Date = date;
+            Read = false;
         }
 
         public string Sender
@@ -39,8 +42,8 @@ namespace EmailClient
                 else
                 {
                     sender = value;
+                    OnPropertyChanged("Sender");
                 }
-                //A revoir ça car ouai c'est toi le sender donc il faudrait récupérer l'email
             }
         }
         private string sender;
@@ -51,7 +54,7 @@ namespace EmailClient
             set 
             {
                 recipients = value;
-                //réaliser un test pour savoir si c'est bien un email et si c'est pas vide
+                OnPropertyChanged("Recipients");
             } 
         }
         private List<string> recipients;
@@ -64,8 +67,7 @@ namespace EmailClient
             set
             {
                 ccrecipients = value;
-                //test de si il y a quelque chose bah que ce soit bien des adresses mails
-                //sinon champs vide
+                OnPropertyChanged("CCRecipients");
             }
         }
         private List<string> ccrecipients;
@@ -82,6 +84,7 @@ namespace EmailClient
                 else
                 {
                     subject = value;
+                    OnPropertyChanged("Subject");
                 }
             }
         }
@@ -99,6 +102,7 @@ namespace EmailClient
                 else
                 {
                     content = value;
+                    OnPropertyChanged("Content");
                 }
             }
         }
@@ -110,7 +114,7 @@ namespace EmailClient
             set
             {
                 attachments = value;
-                //tests que d'une pièce jointe sinon vide
+                OnPropertyChanged("Attachments");
             }
         }
         private List<string> attachments;
@@ -122,18 +126,41 @@ namespace EmailClient
             get { return date; }
             set
             {
-                //tester si c'est bien une date
-                date = value;
+                if(value is DateTime)
+                {
+                    date = value;
+                }
+                OnPropertyChanged("Date");
             }
         }
         private DateTime date = DateTime.Now;
 
+        public bool Read
+        {
+            get { return read; }
+            set
+            {
+                read = value;
+                OnPropertyChanged("Read");
+            }
+        }
+        private bool read;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public override string ToString()
         {
-            return $"{Subject}";
-            // return String.Format("{0}, {1}, {2}", Name, Description, Deadline.ToString());
+            return $"{Subject}";    //find in internet
         }
 
+        //Copy of LabWork
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 
+            }
+        }
     }
 }
