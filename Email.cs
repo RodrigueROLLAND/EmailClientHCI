@@ -55,6 +55,7 @@ namespace EmailClient
             {
                 recipients = value;
                 OnPropertyChanged("Recipients");
+                OnPropertyChanged("FormattedRecipients");
             } 
         }
         private List<string> recipients;

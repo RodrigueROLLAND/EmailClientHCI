@@ -36,8 +36,6 @@ namespace EmailClient
                     OnPropertyChanged("SelectedEmail");
                     OnPropertyChanged("Subject");
                     OnPropertyChanged("Content");
-                    OnPropertyChanged("RecipientstoString");
-                    OnPropertyChanged("CCRecipientstoString");
                 }
                 else
                 {
@@ -53,7 +51,7 @@ namespace EmailClient
 
             DeleteEmailCommand = new Command(obj =>
             {
-                if(SelectedSubFolder != null)
+                if(SelectedSubFolder != null && SelectedEmail != null)
                 {
                     SelectedSubFolder.Messages.Remove(SelectedEmail);
                 }

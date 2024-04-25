@@ -25,11 +25,9 @@
                 <MenuItem Header="Exit" Click="MenuItem_Click"/>
             </MenuItem>
             <MenuItem Header="Message">
-                <MenuItem Header="New"/>
-                <MenuItem Header="Add" Command="{Binding AddEmailCommand}"/>
+                <MenuItem Header="New" Command="{Binding AddEmailCommand}"/>
                 <MenuItem Header="Edit" Command="{Binding EditDraftCommand}"/>
-                <MenuItem Header="Delete" Command="{Binding DeleteEmailCommand}"/>
-                </MenuItem>
+            </MenuItem>
         </Menu>
 
 
