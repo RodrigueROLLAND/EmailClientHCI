@@ -21,11 +21,12 @@
         <!--Menu-->
         <Menu Grid.ColumnSpan="3" Background="Beige">
             <MenuItem Header="File">
-                <MenuItem Header="Settings"/>
+                <MenuItem Header="Settings" Command="{Binding SettingsElement}"/>
                 <MenuItem Header="Exit" Click="MenuItem_Click"/>
             </MenuItem>
             <MenuItem Header="Message">
-                <MenuItem Header="New" Command="{Binding AddEmailCommand}"/>
+                <MenuItem Header="New" Command="{Binding NewElement}"/>
+                <MenuItem Header="Add" Command="{Binding AddEmailCommand}"/>
                 <MenuItem Header="Edit" Command="{Binding EditDraftCommand}"/>
             </MenuItem>
         </Menu>

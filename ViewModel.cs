@@ -15,12 +15,14 @@ namespace EmailClient
     {
         public ViewModel()
         {
+            NewElement = new Command(NewElementCallback);
+            SettingsElement = new Command(SettingsElementCallback);
+
             //define the selected subfolder, this definitions is used for delete method
             SelectSubFolderCommand = new Command(obj =>
             {
                 SelectedSubFolder = (Folder)obj;
             });
-
 
             EditDraftCommand = new Command(obj =>
             {
@@ -68,6 +70,10 @@ namespace EmailClient
         }
 
         public ICommand AddEmailCommand { get; private set; }
+
+        public ICommand NewElement { get; private set; }
+
+        public ICommand SettingsElement { get; private set; }
 
         public ICommand DeleteEmailCommand { get; private set; }
 
@@ -143,6 +149,17 @@ namespace EmailClient
                 }
                 else { return ""; }
             }
+        }
+
+        private void SettingsElementCallback(object sender)
+        {
+            SettingsWindow settingsWindow = new SettingsWindow();
+            settingsWindow.ShowDialog();
+        }
+        private void NewElementCallback(object sender)
+        {
+            NewWindow newWindow = new NewWindow();
+            newWindow.ShowDialog();
         }
 
         void createEmail()
