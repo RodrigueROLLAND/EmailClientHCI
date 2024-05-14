@@ -10,12 +10,11 @@
     <TabControl>
         <TabItem Header="Message Categories">
             <StackPanel>
-                <TextBox x:Name="txtCategoryName"/>
-                
-                <Button Content="Add" VerticalAlignment="Bottom" Click="AddCategoryButton_Click"/>
-                <Button Content="Edit" VerticalAlignment="Bottom" Click="EditCategoryButton_Click"/>
-                <Button Content="Delete" VerticalAlignment="Bottom" Click="DeleteCategoryButton_Click"/>
-                <ListBox x:Name="lstCategories" ItemsSource="{Binding Categories}"/>
+                <TextBox x:Name="txtCategoryName" Text="{Binding TextBoxCategory, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Content="Add" VerticalAlignment="Bottom" Command="{Binding AddCategoryCommand}"/>
+                <Button Content="Edit" VerticalAlignment="Bottom" Command="{Binding EditCategoryCommand}"/>
+                <Button Content="Delete" VerticalAlignment="Bottom" Command="{Binding DeleteCategoryCommand}"/>
+                <ListBox x:Name="lstCategories" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}"/>
             </StackPanel>
         </TabItem>
         <TabItem Header="Automatic Saving">

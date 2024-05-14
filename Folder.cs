@@ -54,6 +54,7 @@ namespace EmailClient
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+
         public Folder(string name, List<Folder>? subfolders = null, List<Email>? messages = null)
         {
             Name = name;

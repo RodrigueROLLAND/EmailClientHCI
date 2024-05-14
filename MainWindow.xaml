@@ -27,7 +27,8 @@
             <MenuItem Header="Message">
                 <MenuItem Header="New" Command="{Binding NewElement}"/>
                 <MenuItem Header="Add" Command="{Binding AddEmailCommand}"/>
-                <MenuItem Header="Edit" Command="{Binding EditDraftCommand}"/>
+                <!--<MenuItem Header="Edit" Command="{Binding EditDraftCommand}"/>-->
+                <MenuItem Header="Edit" Command="{Binding EditElement}"/>
             </MenuItem>
         </Menu>
 
@@ -110,11 +111,11 @@
             </DockPanel>
             <DockPanel Margin="5 5 5 5">
                 <Label Content="Recipients : " Width="100" VerticalAlignment="Center"/>
-                <TextBox Name="TBRecipients" Text="{Binding RecipientstoString, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Background="Ivory"/>
+                <TextBox Name="TBRecipients" Text="{Binding SelectedEmail.RecipientstoString, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Background="Ivory"/>
             </DockPanel>
             <DockPanel Margin="5 5 5 5">
                 <Label Content="CCRecipients : " Width="100" VerticalAlignment="Center"/>
-                <TextBox Name="TBCCRecipients"  Text="{Binding CCRecipientstoString, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Background="Ivory"/>
+                <TextBox Name="TBCCRecipients"  Text="{Binding SelectedEmail.CCRecipientstoString, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Background="Ivory"/>
             </DockPanel>
             <DockPanel Margin="5 5 5 5">
                 <Label Content="Subject : " Width="100" VerticalAlignment="Center"/>
@@ -125,8 +126,7 @@
                     <TextBlock Name="TBContent" Text="{Binding SelectedEmail.Content, UpdateSourceTrigger=PropertyChanged}" FontSize="13" Background="Ivory"/>
                 </Border>
             </DockPanel>
-            
-           
+       
             <TextBox Margin="10" Text="Search Text" Background="Ivory" />
 
         </StackPanel>

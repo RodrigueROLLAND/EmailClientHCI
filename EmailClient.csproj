@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ressources\attachment.png" />
     <None Remove="ressources\compose.png" />
     <None Remove="ressources\delete.png" />
     <None Remove="ressources\forward.png" />
@@ -17,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ressources\attachment.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ressources\compose.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -13,6 +13,7 @@ namespace EmailClient
 
     public class Email : INotifyPropertyChanged
     {
+
         public Email(string sender, List<string> recipients, List<string> ccrecipients, string subject, string content, List<string> attachments, DateTime date)
         {
             Sender = sender;
@@ -51,6 +52,7 @@ namespace EmailClient
         public List<string> Recipients 
         {
             get { return recipients; }
+            
             set 
             {
                 recipients = value;
@@ -60,8 +62,82 @@ namespace EmailClient
         }
         private List<string> recipients;
 
+        public string RecipientstoString
+        {
+            set
+            {
+                List<string> recipientsList = new List<string>();
+                if (!string.IsNullOrEmpty(value))
+                {
+                    // Sépare la chaîne en utilisant la virgule comme délimiteur
+                    string[] recipientArray = value.Split(',');
+
+                    // Crée une nouvelle liste pour stocker les destinataires
+
+                    // Ajoute chaque destinataire à la liste
+                    foreach (string recipient in recipientArray)
+                    {
+                        // Supprime les espaces vides autour de chaque destinataire
+                        string trimmedRecipient = recipient.Trim();
+                        recipientsList.Add(trimmedRecipient);
+                    }
+                }
+                else
+                {
+                    // Si la valeur est vide ou nulle, initialise une liste vide
+                    recipientsList = new List<string>();
+                }
+                recipients = recipientsList;
+            }
+            get
+            {
+                if (recipients != null)
+                {
+                    return string.Join(", ", recipients);
+                }
+                else { return ""; }
+            }
+        }
+
         public string FormattedRecipients => string.Join(", ", Recipients);
 
+        public string CCRecipientstoString
+        {
+            set
+            {
+                
+                List<string> ccrecipientsList = new List<string>();
+                if (!string.IsNullOrEmpty(value))
+                {
+                    // Sépare la chaîne en utilisant la virgule comme délimiteur
+                    string[] ccrecipientArray = value.Split(',');
+
+                    // Crée une nouvelle liste pour stocker les destinataires
+
+                    // Ajoute chaque destinataire à la liste
+                    foreach (string ccrecipient in ccrecipientArray)
+                    {
+                        // Supprime les espaces vides autour de chaque destinataire
+                        string trimmedRecipient = ccrecipient.Trim();
+                        ccrecipientsList.Add(trimmedRecipient);
+                    }
+                }
+                else
+                {
+                    // Si la valeur est vide ou nulle, initialise une liste vide
+                    ccrecipientsList = new List<string>();
+                }
+                ccrecipients = ccrecipientsList;
+            }
+            get
+            {
+                if (ccrecipients != null)
+                {
+                    return string.Join(", ", ccrecipients);
+                }
+                else { return ""; }
+            }
+        }
         public List<string> CCRecipients
         {
             get { return ccrecipients; }
@@ -109,6 +185,45 @@ namespace EmailClient
         }
         private string content;
 
+        public string AttachmenttoString
+        {
+            set
+            {
+
+                List<string> attachmentList = new List<string>();
+                if (!string.IsNullOrEmpty(value))
+                {
+
+
+                    // Sépare la chaîne en utilisant la virgule comme délimiteur
+                    string[] attachmentArray = value.Split(',');
+
+                    // Crée une nouvelle liste pour stocker les destinataires
+
+                    // Ajoute chaque destinataire à la liste
+                    foreach (string attachment in attachmentArray)
+                    {
+                        // Supprime les espaces vides autour de chaque destinataire
+                        string trimmedRecipient = attachment.Trim();
+                        attachmentList.Add(trimmedRecipient);
+                    }
+                }
+                else
+                {
+                    // Si la valeur est vide ou nulle, initialise une liste vide
+                    attachmentList = new List<string>();
+                }
+                attachments = attachmentList;
+            }
+            get
+            {
+                if (attachments != null)
+                {
+                    return string.Join(", ", attachments);
+                }
+                else { return ""; }
+            }
+        }
         public List<string> Attachments
         {
             get { return attachments; }
@@ -146,6 +261,17 @@ namespace EmailClient
             }
         }
         private bool read;
+
+        public string Category
+        {
+            get { return category; }
+            set
+            {
+                category = value;
+                OnPropertyChanged("Category");
+            }
+        }
+        private string category;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
