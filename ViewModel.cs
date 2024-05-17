@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml.Serialization;
 
 
 namespace EmailClient
@@ -30,6 +31,10 @@ namespace EmailClient
             //////////////////////////////////////////////// Fenetre Edit ////////////////////////////////////////////////
 
             SendEmailCommand = new Command(SendEmail);// Dans le constructeur ViewModel
+
+            ImportXML = new Command(ImportXMLCallback);
+
+            ExportXML = new Command(ExportXMLCallback);
 
 
 
@@ -330,15 +335,16 @@ namespace EmailClient
             attachments.Add("/C/PD");
 
             //Create Email
-            Email emailAdd = new Email("add@gmail.com", recipients, ccRecipients, "EmailAdd", "Test test test test", attachments, DateTime.Parse("28/01/2024"));
+            Email emailAdd = new Email("add@gmail.com", recipients, ccRecipients, "Email Add with Add Button", "Add Button Add Button", attachments, DateTime.Parse("28/01/2024"));
 
 
             //Define the mailbox how email is create
             Folder mainFolder = folderList.FirstOrDefault(folder => folder.Name == "MailBox 1");
 
-
+            
             if (mainFolder != null)
             {
+                
                 //Define the subfolder for create email
                 Folder inboxFolder = mainFolder.SubFolders.FirstOrDefault(subfolder => subfolder.Name == "Sent");
                 if (inboxFolder != null)
@@ -346,7 +352,9 @@ namespace EmailClient
                     //Add email to sent folder
                     inboxFolder.Messages.Add(emailAdd);
                 }
+
             }
+            
         }
 
 
@@ -487,7 +495,45 @@ namespace EmailClient
         }
 
 
-       
+
+
+
+        public ICommand ImportXML { get; private set; }
+
+        public ICommand ExportXML { get; private set; }
+
+
+        private void ImportXMLCallback(object sender)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Fichiers XML (*.xml)|*.xml";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // Traitez le fichier sélectionné ici
+                string filePath = openFileDialog.FileName;
+                // Code pour importer à partir du fichier XML
+            }
+        }
+
+        private void ExportXMLCallback(object sender)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Fichiers XML (*.xml)|*.xml";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                // Traitez le fichier de sauvegarde ici
+                string filePath = saveFileDialog.FileName;
+                
+
+                using (var sw = new StreamWriter(filePath))
+                {
+                    XmlSerializer serial = new XmlSerializer(typeof(Task));
+                    serial.Serialize(sw, "test");
+                }
+                // Code pour exporter vers le fichier XML
+            }
+        }
+
 
     }
 }

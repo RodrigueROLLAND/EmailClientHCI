@@ -273,6 +273,11 @@ namespace EmailClient
         }
         private string category;
 
+        public bool IsImportant
+        {
+            get { return Category == "Important"; }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public override string ToString()

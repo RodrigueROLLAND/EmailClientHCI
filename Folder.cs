@@ -11,6 +11,9 @@ namespace EmailClient
 {
     public class Folder : INotifyPropertyChanged
     {
+
+
+
         public string Name
         {
             get { return name; }

@@ -21,6 +21,8 @@
         <!--Menu-->
         <Menu Grid.ColumnSpan="3" Background="Beige">
             <MenuItem Header="File">
+                <MenuItem Header="Import" Command="{Binding ImportXML}"/>
+                <MenuItem Header="Export" Command="{Binding ExportXML}"/>
                 <MenuItem Header="Settings" Command="{Binding SettingsElement}"/>
                 <MenuItem Header="Exit" Click="MenuItem_Click"/>
             </MenuItem>
@@ -50,20 +52,40 @@
         
         <!--Display List of emails-->
         <ListView Grid.Row="1" Grid.Column="1" Name="LVEmails"  MouseDoubleClick="ListView_MouseDoubleClick" SelectedItem="{Binding SelectedEmail}" Background="BlanchedAlmond" SizeChanged="LVEmails_SizeChanged">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn x:Name="SubjectColumn" DisplayMemberBinding="{Binding Subject}" Header="Subject" Width="auto"/>
-                    <GridViewColumn x:Name="RecipientColumn" DisplayMemberBinding="{Binding FormattedRecipients}" Header="Recipient" Width="auto"/>
-                </GridView>
-            </ListView.View>
+            <ListView.Resources>
+                <DataTemplate x:Key="EmailTemplate">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Name="TaskName" Grid.Column="0" Text="{Binding Subject}" FontWeight="Bold"/>
+                        <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                            <TextBlock Text="{Binding FormattedRecipients}" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Date}" Foreground="Gray"/>
+                            <!-- Ajoutez d'autres propriétés ici -->
+                        </StackPanel>
+                    </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsImportant}" Value="True">
+                            <Setter TargetName="TaskName" Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ListView.Resources>
+
+            <ListView.ItemTemplate>
+                <StaticResource ResourceKey="EmailTemplate"/>
+            </ListView.ItemTemplate>
+
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="BorderBrush" Value="Black"/>
                     <Setter Property="BorderThickness" Value="0.1"/>
                 </Style>
-
             </ListView.ItemContainerStyle>
         </ListView>
+
 
 
         <StackPanel Grid.Row="1" Grid.Column="3" Name="SPMail" Background="PapayaWhip">

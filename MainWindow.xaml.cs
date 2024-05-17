@@ -46,8 +46,8 @@ namespace EmailClient
             if (gridView != null)
             {
                 double remainingSpace = LVEmails.ActualWidth - SystemParameters.VerticalScrollBarWidth;
-                SubjectColumn.Width = remainingSpace * 0.3; // 30%
-                RecipientColumn.Width = remainingSpace * 0.7; // 70%
+                //SubjectColumn.Width = remainingSpace * 0.3; // 30%
+                //RecipientColumn.Width = remainingSpace * 0.7; // 70%
             }
         }
     }
